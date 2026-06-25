@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Usta profili: hizmetler, puanlar, yorumlar ve randevu oluşturma." />
+<title>Denizli Oto Servis | USTA APP</title>
+<link rel="stylesheet" href="style.css" />
+<style>
+.profile-grid{display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start}
+.banner{height:200px;border-radius:24px;background:linear-gradient(135deg,rgba(255,59,48,.15),rgba(255,255,255,.04)),linear-gradient(180deg,#17202d,#0c1016);border:1px solid rgba(255,255,255,.06);margin-bottom:20px}
+.profile-head{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.profile-avatar{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#293244,#0d121a);border:1px solid rgba(255,255,255,.08);display:grid;place-items:center;font-weight:800;font-size:1.2rem}
+.svc-list{display:grid;gap:10px;margin:16px 0}
+.svc-row{padding:14px 16px;display:flex;justify-content:space-between}
+.book-card{padding:22px;position:sticky;top:90px}
+.book-card h3{margin:0 0 14px}
+.review-mini{padding:16px;margin-bottom:10px}
+.stars{color:#ffc94d;letter-spacing:2px}
+@media (max-width:1120px){.profile-grid{grid-template-columns:1fr}.book-card{position:static}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#icerik">İçeriğe geç</a>
+<header class="topbar">
+	<div class="wrap nav">
+		<a class="brand" href="usta-app.html" aria-label="USTA APP ana sayfa"><span class="brand-mark" aria-hidden="true">⚙</span><span>USTA <span style="color:var(--accent)">APP</span></span></a>
+		<nav aria-label="Ana menü"><ul class="nav-links">
+			<li><a href="arama.html">Usta Ara</a></li>
+			<li><a href="usta-app.html#hizmetler">Hizmetler</a></li>
+			<li><a href="usta-app.html#yorumlar">Yorumlar</a></li>
+			<li><a href="sss.html">SSS</a></li>
+		</ul></nav>
+		<div class="nav-actions">
+			<a class="btn btn-ghost" href="giris-kayit.html">Giriş Yap</a>
+			<a class="btn btn-primary" href="giris-kayit.html#kayit">Kayıt Ol</a>
+		</div>
+	</div>
+</header>
+
+<main id="icerik" class="wrap section">
+	<p style="color:var(--muted); font-size:.9rem; margin-bottom:14px;"><a href="arama.html">Usta Ara</a> / Denizli Oto Servis</p>
+
+	<div class="profile-grid">
+		<div>
+			<div class="banner" aria-hidden="true"></div>
+			<div class="profile-head">
+				<div class="profile-avatar" aria-hidden="true">DO</div>
+				<div>
+					<h1 style="margin:0; font-size:1.6rem;">Denizli Oto Servis</h1>
+					<div style="color:var(--muted);">Oto Tamir · Denizli · <span class="stars" aria-hidden="true">★★★★★</span> <span style="color:var(--text)">4.8</span> (126 yorum)</div>
+				</div>
+			</div>
+
+			<div class="card" style="padding:22px;">
+				<h3 style="margin-top:0;">Hizmetler</h3>
+				<div class="svc-list">
+					<div class="card svc-row"><span>Motor Tamiri</span><span style="color:var(--ok);">Müsait</span></div>
+					<div class="card svc-row"><span>Periyodik Bakım</span><span style="color:var(--warn);">Teklif üzerine</span></div>
+					<div class="card svc-row"><span>Kaporta - Boya</span><span style="color:var(--muted);">Randevuya bağlı</span></div>
+				</div>
+			</div>
+
+			<div class="card" style="padding:22px; margin-top:18px;">
+				<h3 style="margin-top:0;">Müşteri Yorumları</h3>
+				<div class="card review-mini">
+					<strong>Ahmet Y.</strong> <span class="stars" aria-hidden="true">★★★★★</span>
+					<p style="margin:6px 0 0; color:var(--muted);">"Aracım için hızlıca usta buldum. Teklif, konum ve randevu tek ekranda."</p>
+				</div>
+				<div class="card review-mini">
+					<strong>Selin T.</strong> <span class="stars" aria-hidden="true">★★★★★</span>
+					<p style="margin:6px 0 0; color:var(--muted);">"İşini iyi biliyor, zamanında teslim etti."</p>
+				</div>
+			</div>
+		</div>
+
+		<aside class="card book-card">
+			<h3>Randevu Oluştur</h3>
+			<form id="book-form" style="display:grid; gap:12px;">
+				<div class="field">
+					<label for="svc">Hizmet</label>
+					<select id="svc" required>
+						<option value="">Hizmet seç</option>
+						<option>Motor Tamiri</option>
+						<option>Periyodik Bakım</option>
+						<option>Kaporta - Boya</option>
+					</select>
+				</div>
+				<div class="field">
+					<label for="date">Tarih</label>
+					<input id="date" type="date" required />
+				</div>
+				<div class="field">
+					<label for="time">Saat</label>
+					<input id="time" type="time" required />
+				</div>
+				<div class="field">
+					<label for="note">Not (opsiyonel)</label>
+					<textarea id="note" rows="2" placeholder="Arızayı kısaca anlat"></textarea>
+				</div>
+				<button class="btn btn-primary btn-block" type="submit">Randevu Talebi Gönder</button>
+				<p class="form-status" id="book-status" role="status" aria-live="polite"></p>
+			</form>
+		</aside>
+	</div>
+</main>
+
+<footer class="footer">
+	<div class="wrap footer-bottom">
+		<span>© 2026 USTA APP. Tüm hakları saklıdır.</span>
+		<span>Türkiye · Türkçe</span>
+	</div>
+</footer>
+
+<script>
+document.getElementById("book-form").addEventListener("submit", function(e){
+	e.preventDefault();
+	var status = document.getElementById("book-status");
+	if(!this.checkValidity()){
+		status.textContent = "Lütfen hizmet, tarih ve saat seç.";
+		status.className = "form-status error";
+		return;
+	}
+	status.textContent = "Randevu talebin alındı. Usta onayladığında bildirim alacaksın.";
+	status.className = "form-status success";
+	this.reset();
+});
+</script>
+</body>
+</html>

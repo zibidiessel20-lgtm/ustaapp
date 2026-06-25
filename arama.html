@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Kategori, konum ve puana göre yakınındaki ustayı bul." />
+<title>Usta Ara | USTA APP</title>
+<link rel="stylesheet" href="style.css" />
+<style>
+.search-bar{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;padding:18px;margin-bottom:24px}
+.results{display:grid;gap:14px}
+.result{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;padding:18px}
+.result-avatar{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#293244,#0d121a);border:1px solid rgba(255,255,255,.08);display:grid;place-items:center;font-weight:800}
+.result h3{margin:0 0 4px}
+.result .meta{color:var(--muted);font-size:.9rem}
+.tag{display:inline-flex;padding:4px 10px;border-radius:999px;background:rgba(255,59,48,.12);color:var(--accent);font-size:.78rem;font-weight:700;margin-right:6px}
+.no-result{display:none;text-align:center;color:var(--muted);padding:40px 0}
+@media (max-width:760px){.search-bar{grid-template-columns:1fr}.result{grid-template-columns:auto 1fr;}.result .btn{grid-column:1 / -1}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#icerik">İçeriğe geç</a>
+<header class="topbar">
+	<div class="wrap nav">
+		<a class="brand" href="usta-app.html" aria-label="USTA APP ana sayfa"><span class="brand-mark" aria-hidden="true">⚙</span><span>USTA <span style="color:var(--accent)">APP</span></span></a>
+		<nav aria-label="Ana menü"><ul class="nav-links">
+			<li><a class="active" href="arama.html">Usta Ara</a></li>
+			<li><a href="usta-app.html#hizmetler">Hizmetler</a></li>
+			<li><a href="usta-app.html#yorumlar">Yorumlar</a></li>
+			<li><a href="sss.html">SSS</a></li>
+		</ul></nav>
+		<div class="nav-actions">
+			<a class="btn btn-ghost" href="giris-kayit.html">Giriş Yap</a>
+			<a class="btn btn-primary" href="giris-kayit.html#kayit">Kayıt Ol</a>
+		</div>
+	</div>
+</header>
+
+<main id="icerik">
+	<div class="wrap page-head">
+		<h1>Yakınındaki ustayı bul</h1>
+		<p>Kategori ve konuma göre filtrele, puan ve fiyata göre karşılaştır.</p>
+	</div>
+
+	<div class="wrap section">
+		<form class="card search-bar" id="search-form">
+			<div class="field">
+				<label for="q">Ara</label>
+				<input id="q" type="text" placeholder="usta adı veya hizmet" />
+			</div>
+			<div class="field">
+				<label for="cat">Kategori</label>
+				<select id="cat">
+					<option value="">Tümü</option>
+					<option>Oto Ustası</option>
+					<option>Elektrikçi</option>
+					<option>Tesisatçı</option>
+					<option>Klima Servisi</option>
+					<option>Lastikçi</option>
+					<option>Kaporta & Boya</option>
+				</select>
+			</div>
+			<div class="field">
+				<label for="city">Konum</label>
+				<select id="city">
+					<option value="">Tüm şehirler</option>
+					<option>İstanbul</option>
+					<option>Ankara</option>
+					<option>İzmir</option>
+					<option>Denizli</option>
+				</select>
+			</div>
+			<button class="btn btn-primary" type="submit" style="align-self:end;">Filtrele</button>
+		</form>
+
+		<div class="results" id="results"></div>
+		<p class="no-result" id="no-result">Bu kriterlere uygun usta bulunamadı. Filtreleri değiştirip yeniden dene.</p>
+	</div>
+</main>
+
+<footer class="footer">
+	<div class="wrap footer-bottom">
+		<span>© 2026 USTA APP. Tüm hakları saklıdır.</span>
+		<span>Türkiye · Türkçe</span>
+	</div>
+</footer>
+
+<script>
+var ustalar = [
+	{ad:"Denizli Oto Servis", kategori:"Oto Ustası", sehir:"Denizli", puan:4.8, fiyat:"₺₺"},
+	{ad:"Akın Elektrik", kategori:"Elektrikçi", sehir:"İstanbul", puan:4.6, fiyat:"₺"},
+	{ad:"Güven Tesisat", kategori:"Tesisatçı", sehir:"Ankara", puan:4.9, fiyat:"₺₺"},
+	{ad:"Buz Klima Servis", kategori:"Klima Servisi", sehir:"İzmir", puan:4.5, fiyat:"₺₺₺"},
+	{ad:"Yıldız Lastik", kategori:"Lastikçi", sehir:"İstanbul", puan:4.7, fiyat:"₺"},
+	{ad:"Detay Kaporta Boya", kategori:"Kaporta & Boya", sehir:"Ankara", puan:4.4, fiyat:"₺₺"}
+];
+
+function initials(name){ return name.split(" ").slice(0,2).map(function(w){return w[0];}).join("").toUpperCase(); }
+
+function render(list){
+	var box = document.getElementById("results");
+	var none = document.getElementById("no-result");
+	box.innerHTML = "";
+	if(list.length === 0){ none.style.display = "block"; return; }
+	none.style.display = "none";
+	list.forEach(function(u){
+		var el = document.createElement("article");
+		el.className = "card result";
+		el.innerHTML =
+			'<div class="result-avatar" aria-hidden="true">' + initials(u.ad) + '</div>' +
+			'<div><h3>' + u.ad + '</h3>' +
+			'<div class="meta"><span class="tag">' + u.kategori + '</span>' + u.sehir + ' · ★ ' + u.puan + ' · ' + u.fiyat + '</div></div>' +
+			'<a class="btn btn-primary" href="usta-detay.html">Profili Gör</a>';
+		box.appendChild(el);
+	});
+}
+
+function applyFilter(){
+	var q = document.getElementById("q").value.trim().toLowerCase();
+	var cat = document.getElementById("cat").value;
+	var city = document.getElementById("city").value;
+	var filtered = ustalar.filter(function(u){
+		var matchQ = !q || u.ad.toLowerCase().indexOf(q) !== -1;
+		var matchCat = !cat || u.kategori === cat;
+		var matchCity = !city || u.sehir === city;
+		return matchQ && matchCat && matchCity;
+	});
+	render(filtered);
+}
+
+document.getElementById("search-form").addEventListener("submit", function(e){
+	e.preventDefault();
+	applyFilter();
+});
+["q","cat","city"].forEach(function(id){
+	document.getElementById(id).addEventListener("input", applyFilter);
+});
+
+render(ustalar);
+</script>
+</body>
+</html>

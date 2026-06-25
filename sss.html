@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="USTA APP hakkında sık sorulan sorular." />
+<title>SSS | USTA APP</title>
+<link rel="stylesheet" href="style.css" />
+<style>
+.faq-item{padding:0; overflow:hidden; margin-bottom:12px;}
+.faq-q{width:100%; text-align:left; background:none; border:0; color:var(--text); font-weight:700; font-size:1rem; padding:18px 20px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-family:inherit;}
+.faq-a{padding:0 20px; max-height:0; overflow:hidden; transition:max-height .25s ease, padding .25s ease; color:var(--muted); line-height:1.7;}
+.faq-item.open .faq-a{padding:0 20px 18px;}
+.faq-icon{transition:transform .2s ease;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#icerik">İçeriğe geç</a>
+<header class="topbar">
+	<div class="wrap nav">
+		<a class="brand" href="usta-app.html" aria-label="USTA APP ana sayfa"><span class="brand-mark" aria-hidden="true">⚙</span><span>USTA <span style="color:var(--accent)">APP</span></span></a>
+		<nav aria-label="Ana menü"><ul class="nav-links">
+			<li><a href="arama.html">Usta Ara</a></li>
+			<li><a href="usta-app.html#hizmetler">Hizmetler</a></li>
+			<li><a class="active" href="sss.html">SSS</a></li>
+		</ul></nav>
+		<div class="nav-actions">
+			<a class="btn btn-ghost" href="giris-kayit.html">Giriş Yap</a>
+			<a class="btn btn-primary" href="giris-kayit.html#kayit">Kayıt Ol</a>
+		</div>
+	</div>
+</header>
+
+<main id="icerik">
+	<div class="wrap page-head">
+		<h1>Sık Sorulan Sorular</h1>
+		<p>Aklındaki soruların cevabını burada bulamazsan bizimle iletişime geçebilirsin.</p>
+	</div>
+
+	<div class="wrap section" style="max-width:780px;">
+		<div class="card faq-item">
+			<button class="faq-q" aria-expanded="false">Usta App nasıl çalışır? <span class="faq-icon" aria-hidden="true">+</span></button>
+			<div class="faq-a"><p>İhtiyacına uygun kategoriyi seçer, yakındaki ustalardan teklif alır ve uygun olanla randevu oluşturursun. Tüm süreç uygulama üzerinden takip edilir.</p></div>
+		</div>
+		<div class="card faq-item">
+			<button class="faq-q" aria-expanded="false">Ustalar nasıl doğrulanıyor? <span class="faq-icon" aria-hidden="true">+</span></button>
+			<div class="faq-a"><p>Her usta kayıt sırasında kimlik ve hizmet bilgisi paylaşır; platformdaki geçmiş işler ve müşteri puanları profilinde görünür.</p></div>
+		</div>
+		<div class="card faq-item">
+			<button class="faq-q" aria-expanded="false">Randevuyu nasıl iptal edebilirim? <span class="faq-icon" aria-hidden="true">+</span></button>
+			<div class="faq-a"><p>Randevu detay sayfasından iptal talebinde bulunabilirsin; usta onayladıktan sonra değişiklik için doğrudan mesajlaşman gerekir.</p></div>
+		</div>
+		<div class="card faq-item">
+			<button class="faq-q" aria-expanded="false">Ücretlendirme nasıl işliyor? <span class="faq-icon" aria-hidden="true">+</span></button>
+			<div class="faq-a"><p>Usta App üzerinden teklif almak ücretsizdir. Hizmet ücreti, usta ile aranızda belirlediğiniz tutar üzerinden işin tamamlanmasıyla ödenir.</p></div>
+		</div>
+		<div class="card faq-item">
+			<button class="faq-q" aria-expanded="false">Usta olarak nasıl kayıt olabilirim? <span class="faq-icon" aria-hidden="true">+</span></button>
+			<div class="faq-a"><p>Kayıt Ol sayfasından "Ustayım" seçeneğini işaretleyip hizmet kategorini ve bölgeni belirterek başvurabilirsin.</p></div>
+		</div>
+	</div>
+</main>
+
+<footer class="footer">
+	<div class="wrap footer-bottom">
+		<span>© 2026 USTA APP. Tüm hakları saklıdır.</span>
+		<span>Türkiye · Türkçe</span>
+	</div>
+</footer>
+
+<script>
+document.querySelectorAll(".faq-q").forEach(function(btn){
+	btn.addEventListener("click", function(){
+		var item = btn.closest(".faq-item");
+		var answer = item.querySelector(".faq-a");
+		var isOpen = item.classList.contains("open");
+		item.classList.toggle("open");
+		btn.setAttribute("aria-expanded", String(!isOpen));
+		answer.style.maxHeight = isOpen ? "0px" : answer.scrollHeight + "px";
+	});
+});
+</script>
+</body>
+</html>

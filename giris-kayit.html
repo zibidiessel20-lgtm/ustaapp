@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="USTA APP'e giriş yap veya yeni hesap oluştur." />
+<title>Giriş Yap / Kayıt Ol | USTA APP</title>
+<link rel="stylesheet" href="style.css" />
+<style>
+.auth-wrap{display:grid; place-items:center; padding:50px 0 70px;}
+.auth-card{width:min(440px, 100%); padding:30px;}
+.tabs{display:flex; gap:8px; margin-bottom:22px; background:rgba(255,255,255,.04); border-radius:14px; padding:6px;}
+.tab{flex:1; text-align:center; padding:10px; border-radius:10px; cursor:pointer; font-weight:700; color:var(--muted);}
+.tab.active{background:linear-gradient(180deg,#ff584c,#e31c14); color:#fff;}
+.panel{display:none;}
+.panel.active{display:block;}
+.role-toggle{display:flex; gap:10px; margin-bottom:14px;}
+.role-opt{flex:1; text-align:center; padding:10px; border-radius:12px; border:1px solid rgba(255,255,255,.1); cursor:pointer; color:var(--muted);}
+.role-opt.active{border-color:var(--accent); color:var(--text); background:rgba(255,59,48,.08);}
+form{display:grid; gap:12px;}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#icerik">İçeriğe geç</a>
+<header class="topbar">
+	<div class="wrap nav">
+		<a class="brand" href="usta-app.html" aria-label="USTA APP ana sayfa"><span class="brand-mark" aria-hidden="true">⚙</span><span>USTA <span style="color:var(--accent)">APP</span></span></a>
+		<nav aria-label="Ana menü"><ul class="nav-links">
+			<li><a href="arama.html">Usta Ara</a></li>
+			<li><a href="usta-app.html#hizmetler">Hizmetler</a></li>
+			<li><a href="sss.html">SSS</a></li>
+		</ul></nav>
+		<div class="nav-actions"><a class="btn btn-ghost" href="usta-app.html">Ana Sayfa</a></div>
+	</div>
+</header>
+
+<main id="icerik" class="auth-wrap">
+	<div class="card auth-card">
+		<div class="tabs" role="tablist">
+			<button class="tab active" id="tab-giris" role="tab" aria-selected="true">Giriş Yap</button>
+			<button class="tab" id="tab-kayit" role="tab" aria-selected="false">Kayıt Ol</button>
+		</div>
+
+		<section class="panel active" id="panel-giris" role="tabpanel">
+			<form id="form-giris">
+				<div class="field">
+					<label for="g-email">E-posta</label>
+					<input id="g-email" type="email" required placeholder="ornek@eposta.com" />
+				</div>
+				<div class="field">
+					<label for="g-pass">Şifre</label>
+					<input id="g-pass" type="password" required minlength="6" placeholder="••••••••" />
+				</div>
+				<button class="btn btn-primary btn-block" type="submit">Giriş Yap</button>
+				<p class="form-status" id="status-giris" role="status" aria-live="polite"></p>
+			</form>
+		</section>
+
+		<section class="panel" id="panel-kayit" role="tabpanel">
+			<div class="role-toggle">
+				<div class="role-opt active" data-role="musteri">Müşteriyim</div>
+				<div class="role-opt" data-role="usta">Ustayım</div>
+			</div>
+			<form id="form-kayit">
+				<div class="field">
+					<label for="k-ad">Ad Soyad</label>
+					<input id="k-ad" type="text" required minlength="2" placeholder="Adın ve soyadın" />
+				</div>
+				<div class="field">
+					<label for="k-email">E-posta</label>
+					<input id="k-email" type="email" required placeholder="ornek@eposta.com" />
+				</div>
+				<div class="field">
+					<label for="k-pass">Şifre</label>
+					<input id="k-pass" type="password" required minlength="6" placeholder="En az 6 karakter" />
+				</div>
+				<button class="btn btn-primary btn-block" type="submit">Hesap Oluştur</button>
+				<p class="form-status" id="status-kayit" role="status" aria-live="polite"></p>
+			</form>
+		</section>
+	</div>
+</main>
+
+<footer class="footer">
+	<div class="wrap footer-bottom">
+		<span>© 2026 USTA APP. Tüm hakları saklıdır.</span>
+		<span>Türkiye · Türkçe</span>
+	</div>
+</footer>
+
+<script>
+var tabGiris = document.getElementById("tab-giris");
+var tabKayit = document.getElementById("tab-kayit");
+var panelGiris = document.getElementById("panel-giris");
+var panelKayit = document.getElementById("panel-kayit");
+
+function showTab(which){
+	var isGiris = which === "giris";
+	tabGiris.classList.toggle("active", isGiris);
+	tabKayit.classList.toggle("active", !isGiris);
+	tabGiris.setAttribute("aria-selected", isGiris);
+	tabKayit.setAttribute("aria-selected", !isGiris);
+	panelGiris.classList.toggle("active", isGiris);
+	panelKayit.classList.toggle("active", !isGiris);
+}
+tabGiris.addEventListener("click", function(){ showTab("giris"); });
+tabKayit.addEventListener("click", function(){ showTab("kayit"); });
+if(location.hash === "#kayit") showTab("kayit");
+
+document.querySelectorAll(".role-opt").forEach(function(opt){
+	opt.addEventListener("click", function(){
+		document.querySelectorAll(".role-opt").forEach(function(o){ o.classList.remove("active"); });
+		opt.classList.add("active");
+	});
+});
+
+document.getElementById("form-giris").addEventListener("submit", function(e){
+	e.preventDefault();
+	var s = document.getElementById("status-giris");
+	if(!this.checkValidity()){ s.textContent="E-posta ve şifreni kontrol et."; s.className="form-status error"; return; }
+	s.textContent = "Not: bu demo formdur, henüz gerçek bir hesap sistemine bağlı değil.";
+	s.className = "form-status success";
+});
+
+document.getElementById("form-kayit").addEventListener("submit", function(e){
+	e.preventDefault();
+	var s = document.getElementById("status-kayit");
+	if(!this.checkValidity()){ s.textContent="Lütfen tüm alanları doğru doldur."; s.className="form-status error"; return; }
+	s.textContent = "Not: bu demo formdur, henüz gerçek bir hesap sistemine bağlı değil.";
+	s.className = "form-status success";
+});
+</script>
+</body>
+</html>
